@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "727241296397",
+    "project_id": "load-to-cash-ph",
+    "storage_bucket": "load-to-cash-ph.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727241296397:android:d96c6a8cc4acdf11c36344",
+        "android_client_info": {
+          "package_name": "com.morningcoffee.loadtocashph"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727241296397-o7bos4kqel5a00a6372q5uq5tb5a3foo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsHCXqqOETg-iIbZX365Gyh5RrV_a1Z10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727241296397-o7bos4kqel5a00a6372q5uq5tb5a3foo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
