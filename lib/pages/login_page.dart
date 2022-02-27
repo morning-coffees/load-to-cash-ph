@@ -35,6 +35,13 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Text("Sign out"),
             ),
+            ElevatedButton(
+              onPressed: () {
+                // AuthProvider.instance.getAccountCredential();
+                context.read<AuthProvider>().getAccountCredential();
+              },
+              child: const Text("Tester ---------------------"),
+            ),
             Text('Hello ${user?.displayName ?? ''}'),
           ],
         ),
