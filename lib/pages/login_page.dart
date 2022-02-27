@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Text("Sign out"),
             ),
-            Text('Hello ${user?.email}'),
+            Text('Hello ${user?.displayName ?? ''}'),
           ],
         ),
       ),
