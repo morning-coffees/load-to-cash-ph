@@ -1,42 +1,42 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:loadtocashph/providers/auth_provider.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthProvider with ChangeNotifier {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  FirebaseAuth fireAuth = FirebaseAuth.instance;
+  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _fireAuth = FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-  GoogleSignInAccount? _user;
+  // GoogleSignInAccount? _user;
   User? _fireUser;
 
   AuthProvider._privateConstructor();
   static final AuthProvider instance = AuthProvider._privateConstructor();
 
   AuthProvider() {
-    _user = _googleSignIn.currentUser;
+    // _user = _googleSignIn.currentUser;
+    _fireUser = _fireAuth.currentUser;
   }
 
-  GoogleSignInAccount? get user => _user;
+  User? get user => _fireUser;
 
   void signIn() {
+    GoogleSignInAccount? user;
     _googleSignIn
         .signIn()
-        .then((value) => _user = _googleSignIn.currentUser)
+        .then((value) => user = _googleSignIn.currentUser)
         .then((value) async {
       final GoogleSignInAuthentication? googleSignInAuthentication =
-          await _user?.authentication;
+          await user?.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication?.accessToken,
         idToken: googleSignInAuthentication?.idToken,
       );
       try {
         final UserCredential userCredential =
-            await fireAuth.signInWithCredential(credential);
+            await _fireAuth.signInWithCredential(credential);
 
         _fireUser = userCredential.user;
       } on FirebaseAuthException catch (e) {
@@ -49,9 +49,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   void signOut() {
+    _fireAuth.signOut().then((value) => _fireUser = null);
     _googleSignIn.signOut().then((value) {
-      _user = null;
-      _fireUser = null;
+      // _user = null;
     }).then((value) => notifyListeners());
   }
 
