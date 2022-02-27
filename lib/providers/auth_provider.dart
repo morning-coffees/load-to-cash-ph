@@ -1,22 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthProvider with ChangeNotifier {
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _fireAuth = FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-  // GoogleSignInAccount? _user;
   User? _fireUser;
 
   AuthProvider._privateConstructor();
   static final AuthProvider instance = AuthProvider._privateConstructor();
 
   AuthProvider() {
-    // _user = _googleSignIn.currentUser;
     _fireUser = _fireAuth.currentUser;
   }
 
@@ -50,9 +46,6 @@ class AuthProvider with ChangeNotifier {
 
   void signOut() {
     _fireAuth.signOut().then((value) => _fireUser = null);
-    _googleSignIn.signOut().then((value) {
-      // _user = null;
-    }).then((value) => notifyListeners());
   }
 
   Future<AuthCredential?> getAccountCredential() async {
