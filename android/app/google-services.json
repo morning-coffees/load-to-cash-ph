@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "727241296397",
+    "firebase_url": "https://load-to-cash-ph-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "load-to-cash-ph",
     "storage_bucket": "load-to-cash-ph.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "727241296397-9cng0a0n8oecshijjt5l0a75jjrnq340.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.morningcoffee.loadtocashph",
+            "certificate_hash": "e8111b6cef649fd8a4f226797c03a0c20b7016d9"
+          }
+        },
         {
           "client_id": "727241296397-o7bos4kqel5a00a6372q5uq5tb5a3foo.apps.googleusercontent.com",
           "client_type": 3

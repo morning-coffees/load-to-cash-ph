@@ -4,6 +4,8 @@ import 'package:loadtocashph/widgets/chat_tile.dart';
 import 'package:loadtocashph/theme.dart';
 
 class HomePage extends StatelessWidget {
+  static const routeName = '/home';
+
   const HomePage({Key? key}) : super(key: key);
 
   @override

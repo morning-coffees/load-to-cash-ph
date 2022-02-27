@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:loadtocashph/pages/login.dart';
-import './pages/message_page.dart';
+import 'package:loadtocashph/pages/home_page.dart';
+import 'package:loadtocashph/pages/login_page.dart';
+import 'package:loadtocashph/pages/message_page.dart';
+import 'package:loadtocashph/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -14,7 +24,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
       ),
-      home: SignInDemo(),
+      initialRoute: LoginPage.routeName,
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        LoginPage.routeName: (context) => const LoginPage(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        HomePage.routeName: (context) => const HomePage(),
+        MessagePage.routeName: (context) => const MessagePage(),
+      },
     );
   }
 }

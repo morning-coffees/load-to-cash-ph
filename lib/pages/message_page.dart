@@ -3,6 +3,7 @@ import 'package:loadtocashph/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 
 class MessagePage extends StatelessWidget {
+  static const routeName = '/message';
   const MessagePage({Key? key}) : super(key: key);
 
   @override

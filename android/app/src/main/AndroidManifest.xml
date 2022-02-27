@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.loadtocashph">
+    package="com.morningcoffee.loadtocashph">
    <application
         android:label="loadtocashph"
         android:name="${applicationName}"
