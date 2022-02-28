@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,6 +15,10 @@ class AuthProvider with ChangeNotifier {
 
   AuthProvider() {
     _fireUser = _fireAuth.currentUser;
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      _fireUser = user;
+    });
   }
 
   User? get user => _fireUser;
@@ -45,10 +50,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   void signOut() {
-    _fireAuth.signOut().then((value) => _fireUser = null);
-  }
-
-  Future<AuthCredential?> getAccountCredential() async {
-    print(_fireUser);
+    _fireAuth
+        .signOut()
+        .then((value) => _fireUser = null)
+        .then((value) => notifyListeners());
   }
 }

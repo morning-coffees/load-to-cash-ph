@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:loadtocashph/providers/auth_provider.dart';
 import 'package:loadtocashph/widgets/chat_tile.dart';
 
 import 'package:loadtocashph/theme.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   static const routeName = '/home';
@@ -24,6 +26,12 @@ class HomePage extends StatelessWidget {
           child: Center(
         child: SingleChildScrollView(
           child: Column(children: [
+            ElevatedButton(
+              onPressed: () {
+                context.read<AuthProvider>().signOut();
+              },
+              child: const Text("Sign out"),
+            ),
             const SizedBox(
               height: 40,
             ),

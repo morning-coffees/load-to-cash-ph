@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:loadtocashph/providers/auth_provider.dart';
+import 'package:loadtocashph/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,10 +42,32 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               onPressed: () {
                 // AuthProvider.instance.getAccountCredential();
-                context.read<AuthProvider>().getAccountCredential();
+                // context.read<AuthProvider>().streamUsers();
               },
               child: const Text("Tester ---------------------"),
             ),
+            StreamBuilder(
+                stream: context.read<UserProvider>().streamUsers(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
+
+                  return ListView(
+                    shrinkWrap: true,
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      return ListTile(title: Text(data['messages'][1]));
+                    }).toList(),
+                  );
+                }),
             Text('Hello ${user?.displayName ?? ''}'),
           ],
         ),
