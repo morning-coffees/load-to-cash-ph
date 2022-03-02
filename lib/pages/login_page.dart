@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loadtocashph/models/user_model.dart';
 import 'package:loadtocashph/providers/auth_provider.dart';
 import 'package:loadtocashph/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     User? user = context.watch<AuthProvider>().user;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Hello world"),

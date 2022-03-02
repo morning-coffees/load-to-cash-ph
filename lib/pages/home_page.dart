@@ -1,17 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loadtocashph/models/user_model.dart';
 import 'package:loadtocashph/providers/auth_provider.dart';
+import 'package:loadtocashph/providers/user_provider.dart';
 import 'package:loadtocashph/widgets/chat_tile.dart';
 
 import 'package:loadtocashph/theme.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const routeName = '/home';
 
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  UserModel? userModel;
+
+  _initUserModel(context) async {
+    await Provider.of<UserProvider>(context, listen: false)
+        .getCurrentUser()
+        .then((value) {
+      setState(() {
+        userModel = value;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _initUserModel(context);
     return Scaffold(
       backgroundColor: blueColor,
       floatingActionButton: FloatingActionButton(
@@ -35,16 +56,16 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            Image.asset(
-              'assets/images/profile.png',
-              height: 100,
-              width: 100,
+            CircleAvatar(
+              radius: 50.0,
+              backgroundImage: NetworkImage(userModel?.photoUrl ?? ''),
+              backgroundColor: Colors.transparent,
             ),
             const SizedBox(
               height: 20,
             ),
             Text(
-              'Sabrina Carpenter',
+              userModel?.displayName ?? 'Loading name...',
               style: TextStyle(fontSize: 20, color: whiteColor),
             ),
             Text(

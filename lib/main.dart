@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:loadtocashph/models/user_model.dart';
 import 'package:loadtocashph/pages/home_page.dart';
 import 'package:loadtocashph/pages/login_page.dart';
 import 'package:loadtocashph/pages/message_page.dart';

@@ -1,26 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:loadtocashph/models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   final FirebaseAuth _fireAuth = FirebaseAuth.instance;
+  final _users = FirebaseFirestore.instance
+      .collection('users')
+      .withConverter<UserModel>(
+          fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
+          toFirestore: (user, _) => user.toJson());
 
-  User? _fireUser;
-  bool _isLoggedIn = false;
+  User? _currentUser;
 
   UserProvider._privateConstructor();
   static final UserProvider instance = UserProvider._privateConstructor();
 
   UserProvider() {
-    _fireUser = _fireAuth.currentUser;
-
-    // notify if user is loggout
+    _currentUser = _fireAuth.currentUser;
   }
-
-  User? get user => _fireUser;
-  bool get isLoggedIn => _isLoggedIn;
 
   Stream<QuerySnapshot<Object?>> streamUsers() {
     return FirebaseFirestore.instance.collection('users').snapshots();
+  }
+
+  Future<UserModel?> getCurrentUser() async {
+    return await _users
+        .doc(_currentUser?.email)
+        .get()
+        .then((value) => value.data());
   }
 }
