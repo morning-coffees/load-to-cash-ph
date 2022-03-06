@@ -5,11 +5,7 @@ import 'package:loadtocashph/models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   final FirebaseAuth _fireAuth = FirebaseAuth.instance;
-  final _users = FirebaseFirestore.instance
-      .collection('users')
-      .withConverter<UserModel>(
-          fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
-          toFirestore: (user, _) => user.toJson());
+  final _users = UserModel.empty().ref;
 
   User? _currentUser;
 
@@ -25,8 +21,6 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<UserModel?> getCurrentUser() async {
-    print('current user: ============${_currentUser?.email}===========');
-
     return await _users
         .doc(_currentUser?.email)
         .get()
