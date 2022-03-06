@@ -25,6 +25,8 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<UserModel?> getCurrentUser() async {
+    print('current user: ============${_currentUser?.email}===========');
+
     return await _users
         .doc(_currentUser?.email)
         .get()

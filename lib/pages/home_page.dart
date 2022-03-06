@@ -6,6 +6,7 @@ import 'package:loadtocashph/providers/user_provider.dart';
 import 'package:loadtocashph/widgets/chat_tile.dart';
 
 import 'package:loadtocashph/theme.dart';
+import 'package:loadtocashph/widgets/user_profile_view.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,21 +19,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  UserModel? userModel;
+  // UserModel? userModel;
 
-  _initUserModel(context) async {
-    await Provider.of<UserProvider>(context, listen: false)
-        .getCurrentUser()
-        .then((value) {
-      setState(() {
-        userModel = value;
-      });
-    });
-  }
+  // _initUserModel(context) async {
+  //   await Provider.of<UserProvider>(context, listen: false)
+  //       .getCurrentUser()
+  //       .then((value) {
+  //     setState(() {
+  //       userModel = value;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    _initUserModel(context);
+    // _initUserModel(context);
     return Scaffold(
       backgroundColor: blueColor,
       floatingActionButton: FloatingActionButton(
@@ -53,27 +54,24 @@ class _HomePageState extends State<HomePage> {
               },
               child: const Text("Sign out"),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            CircleAvatar(
-              radius: 50.0,
-              backgroundImage: NetworkImage(userModel?.photoUrl ?? ''),
-              backgroundColor: Colors.transparent,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              userModel?.displayName ?? 'Loading name...',
-              style: TextStyle(fontSize: 20, color: whiteColor),
-            ),
-            Text(
-              'Travel Freelancer',
-              style: TextStyle(fontSize: 16, color: mutedColor),
-            ),
-            const SizedBox(
-              height: 30,
+            FutureBuilder(
+              future: Provider.of<UserProvider>(context, listen: false)
+                  .getCurrentUser(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const UserProfileView(
+                    imageUrl:
+                        'https://lh3.googleusercontent.com/a/AATXAJwqNXMRg3zT8aCmMVZepNrKL3SsFmt4DSQQGQyc=s96-c',
+                    displayName: 'Loading...',
+                  );
+                } else {
+                  UserModel um = snapshot.data as UserModel;
+                  return UserProfileView(
+                    imageUrl: um.photoUrl,
+                    displayName: um.displayName,
+                  );
+                }
+              },
             ),
             Container(
               width: double.infinity,

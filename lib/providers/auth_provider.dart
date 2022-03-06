@@ -23,13 +23,12 @@ class AuthProvider with ChangeNotifier {
   User? get user => _fireUser;
 
   void signIn() {
-    GoogleSignInAccount? user;
     _googleSignIn
         .signIn()
-        .then((value) => user = _googleSignIn.currentUser)
+        .then((value) => _googleSignIn.currentUser)
         .then((value) async {
       final GoogleSignInAuthentication? googleSignInAuthentication =
-          await user?.authentication;
+          await value?.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication?.accessToken,
         idToken: googleSignInAuthentication?.idToken,
@@ -39,19 +38,26 @@ class AuthProvider with ChangeNotifier {
             await _fireAuth.signInWithCredential(credential);
 
         _fireUser = userCredential.user;
+        notifyListeners();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
         } else if (e.code == 'invalid-credential') {}
       } catch (e) {
         print(e);
       }
-    }).then((value) => notifyListeners());
+    }).catchError((value) {
+      _fireUser = null;
+      notifyListeners();
+    });
   }
 
   void signOut() {
-    _fireAuth
-        .signOut()
-        .then((value) => _fireUser = null)
-        .then((value) => notifyListeners());
+    _fireAuth.signOut().then((value) {
+      _fireUser = null;
+      notifyListeners();
+    }).catchError((value) {
+      _fireUser = null;
+      notifyListeners();
+    });
   }
 }
